@@ -1,0 +1,1 @@
+Stworzyc dodatkowe tabele w db 

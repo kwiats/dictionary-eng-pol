@@ -1,3 +1,3 @@
-from libs import learning, dictionary, translated
+from libs import learning, dictionary, translator
 
 ### kod

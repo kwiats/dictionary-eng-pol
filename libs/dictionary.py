@@ -1,3 +1,4 @@
+from operator import index
 import sqlite3
 
 from os import path, chdir, getcwd
@@ -5,10 +6,14 @@ import pathlib
 
 from configurations import DBNAME, PATH_TO_DB
 
+ABSPATH = path.abspath(getcwd())
+
+# Czy taki dekorator ma sens w momencie inicjalizowania klasy Dictionary tworzymy baze danych?
+
 
 def check_status(func):
     def wrapper(*args, **kwargs):
-        if path.isfile(path.abspath(getcwd()) + PATH_TO_DB + DBNAME):
+        if path.isfile(ABSPATH + PATH_TO_DB + DBNAME):
             return func(*args, **kwargs)
         raise FileExistsError("DataBase doesn't exists or cannot be created.")
 
@@ -17,7 +22,7 @@ def check_status(func):
 
 class Dictionary:
     def __init__(self, filename: str):
-        self.connect = sqlite3.connect(path.abspath(getcwd()) + PATH_TO_DB + DBNAME)
+        self.connect = sqlite3.connect(ABSPATH + PATH_TO_DB + filename)
         self.cursor = self.connect.cursor()
 
     @check_status
@@ -87,5 +92,19 @@ class Dictionary:
 
         return self.cursor.fetchall()
 
+    @check_status
+    def update_element(
+        self, translated: str, word: str = None, index_element: int = None
+    ):
+        if index_element:
+            query = f"""UPDATE words SET translated_word = '{translated}' WHERE wordId = {index_element}"""
+            self.cursor.execute(query)
+            return self.cursor.fetchone()
+        if word:
+            query = f"""UPDATE words SET translated_word = '{translated}' WHERE word = {word}"""
+            self.cursor.execute(query)
+            return self.cursor.fetchone()
+        return None
 
-eng2pol = Dictionary(FILENAME)
+
+eng2pol = Dictionary(DBNAME)
