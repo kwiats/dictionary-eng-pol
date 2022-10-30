@@ -1,27 +1,26 @@
 import sqlite3
 
-from os import path, chdir
-from sys import path_hooks
+from os import path, chdir, getcwd
+import pathlib
 
-from configurations import FILENAME, PATH_TO_FILE
+from configurations import DBNAME, PATH_TO_DB
 
 
 def check_status(func):
     def wrapper(*args, **kwargs):
-        if path.isfile(chdir("../database/")+FILENAME):
+        if path.isfile(path.abspath(getcwd()) + PATH_TO_DB + DBNAME):
             return func(*args, **kwargs)
         raise FileExistsError("DataBase doesn't exists or cannot be created.")
+
     return wrapper
 
 
 class Dictionary:
     def __init__(self, filename: str):
-        path_db=chdir("../database/")
-        print(path_db)
-        self.connect = sqlite3.connect(+FILENAME)
+        self.connect = sqlite3.connect(path.abspath(getcwd()) + PATH_TO_DB + DBNAME)
         self.cursor = self.connect.cursor()
 
-    @check_status   
+    @check_status
     def define_data_base(self):
         """Create SQL file with table - term and translated
 
@@ -90,4 +89,3 @@ class Dictionary:
 
 
 eng2pol = Dictionary(FILENAME)
-
