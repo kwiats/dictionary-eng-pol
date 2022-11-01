@@ -3,6 +3,9 @@ from typing import List
 from dictionary import Dictionary
 from configurations import DBNAME
 
+#jesli dane słowo nie posiada tłumaczenia mozemy je tutaj dodac lub automatycznie znalezc 
+
+
 
 class Default(Dictionary):
     def __init__(self, filename: str):

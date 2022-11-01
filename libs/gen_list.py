@@ -1,14 +1,12 @@
 from string import ascii_letters
 from random import choice
 
-ranList = {}
-
-def gen_list():
-    for _ in range(30):
-        letter_1 = choice(ascii_letters)
-        letter_2 = choice(ascii_letters)
-        ranList[letter_1] = letter_2
-    return ranList
-
-
-print(gen_list())
+def gen_list(quantity: int ):
+    lst = []
+    for _ in range(quantity):
+        randList = {
+            "word": choice(ascii_letters),
+            "translated_word": choice(ascii_letters),
+        }
+        lst.append(randList)
+    return lst
