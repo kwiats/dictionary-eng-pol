@@ -29,14 +29,13 @@ class Dictionary:
         self.cursor = self.connect.cursor()
 
     @check_status
-    def create_main_table(self, name: str = DEFAULT_NAME):
-        """Create main table with all words, translated word and specific category"""
+    def create_main_table(self):
+        """Create main table with all words, translated word and index"""
 
-        create_table = """CREATE TABLE IF NOT EXISTS '{name}'(
+        create_table = """CREATE TABLE IF NOT EXISTS words(
             wordId INTEGER PRIMARY KEY,
             word TEXT,
-            translatedWord TEXT,
-            categoryId INTEGER)"""
+            translatedWord TEXT)"""
         return self.cursor.execute(create_table)
 
     @check_status
@@ -45,7 +44,16 @@ class Dictionary:
 
         create_table = """CREATE TABLE IF NOT EXISTS category(
             categoryId INTEGER PRIMARY KEY,
-            name TEXT)"""
+            category TEXT)"""
+        return self.cursor.execute(create_table)
+
+    @check_status
+    def create_wordcategory_table(self):
+        """Create word category table for database with index of word and index of category
+        """
+        create_table ="""CREATE TABLE IF NOT EXISTS wordCategory(
+            wordId INTEGER FOREIGN KEY, 
+            categoryId INTEGER FOREIGN KEY)"""
         return self.cursor.execute(create_table)
 
     # def close_and_commit(self):
@@ -80,7 +88,7 @@ class Dictionary:
         return self.cursor.fetchall()
 
     @check_status
-    def insert_element(self, word: str, translated: str):
+    def insert_word(self, word: str, translated: str):
         """Insert element with specific word and translated word to database.
 
         Args:
@@ -143,11 +151,21 @@ class Dictionary:
     def delete_category():
         pass
 
+    def insert_word_category():
+        pass
+
+    def update_word_category():
+        pass
+
+    def delete_category():
+        pass
+
 
 eng2pol = Dictionary()
 eng2pol.create_data_base()
 eng2pol.create_main_table()
 eng2pol.create_category_table()
+eng2pol.create_wordcategory_table()
 # eng2pol.insert_element("test", "test1")
 # words = eng2pol.show_all()
 # print(words)
