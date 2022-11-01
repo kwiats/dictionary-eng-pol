@@ -19,27 +19,28 @@ def check_status(func):
 
 
 class Dictionary:
-    def __init__(self) -> None:
-        pass
-
     def create_data_base(self, filename: str):
         self.connect = sqlite3.connect(ABSPATH + PATH_TO_DB + filename)
         self.cursor = self.connect.cursor()
 
     @check_status
-    def create_table(self):
-        """Create SQL file with table - term and translated
-
-        Args:
-            filename (str, optional): Name of sql file. Defaults to "english-polish.db".
-
-
-        """
+    def create_main_table(self):
+        """Create main table with all words, translated word and specific category"""
 
         create_table = """CREATE TABLE IF NOT EXISTS words(
             wordId INTEGER PRIMARY KEY,
             word TEXT,
-            translated_word TEXT)"""
+            translatedWord TEXT,
+            categoryId INTEGER)"""
+        return self.cursor.execute(create_table)
+
+    @check_status
+    def create_category_table(self):
+        """Create category table for database with index and name"""
+
+        create_table = """CREATE TABLE IF NOT EXISTS category(
+            categoryId INTEGER PRIMARY KEY,
+            name TEXT)"""
         return self.cursor.execute(create_table)
 
     # def close_and_commit(self):
@@ -94,19 +95,20 @@ class Dictionary:
         return self.cursor.fetchall()
 
     @check_status
-    def update_element(self, translated: str, word: str = None, index_element: int = None):
+    def update_translation(
+        self, translated: str, word: str = None, wordIndex: int = None
+    ):
         """sumary_line
-        
+
         Args:
             argument(type): description
 
-        Returns: 
+        Returns:
             return(type): description
         """
-        
-    
-        if index_element:
-            query = f"""UPDATE words SET translated_word = '{translated}' WHERE wordId = '{index_element}'"""
+
+        if wordIndex:
+            query = f"""UPDATE words SET translated_word = '{translated}' WHERE wordId = '{wordIndex}'"""
             self.cursor.execute(query)
             return self.cursor.fetchone()
         if word:
@@ -116,9 +118,9 @@ class Dictionary:
         return None
 
     @check_status
-    def delete_element(self, word: str = None, index_element: int = None):
-        if index_element:
-            query = f"""DELETE FROM words WHERE wordId = '{index_element}'"""
+    def delete_word(self, word: str = None, wordIndex: int = None):
+        if wordIndex:
+            query = f"""DELETE FROM words WHERE wordId = '{wordIndex}'"""
             self.cursor.execute(query)
             return self.cursor.fetchone()
         if word:
@@ -126,17 +128,27 @@ class Dictionary:
             self.cursor.execute(query)
             return self.cursor.fetchone()
         return None
+    
+    def insert_category():
+        pass
+
+    def update_category():
+        pass
+
+    def delete_category():
+        pass
 
 
 eng2pol = Dictionary()
 eng2pol.create_data_base(DBNAME)
-eng2pol.create_table()
-eng2pol.insert_element("test", "test1")
-words = eng2pol.show_all()
-print(words)
-eng2pol.update_element("test2", index_element=1)
-words = eng2pol.show_all()
-print(words)
-eng2pol.update_element("test3", word="test")
-words = eng2pol.show_all()
-print(words)
+eng2pol.create_main_table()
+eng2pol.create_category_table()
+# eng2pol.insert_element("test", "test1")
+# words = eng2pol.show_all()
+# print(words)
+# eng2pol.update_element("test2", wordIndex=1)
+# words = eng2pol.show_all()
+# print(words)
+# eng2pol.update_element("test3", word="test")
+# words = eng2pol.show_all()
+# print(words)
