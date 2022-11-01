@@ -19,12 +19,15 @@ def check_status(func):
 
 
 class Dictionary:
-    def __init__(self, filename: str):
+    def __init__(self) -> None:
+        pass
+
+    def create_data_base(self, filename: str):
         self.connect = sqlite3.connect(ABSPATH + PATH_TO_DB + filename)
         self.cursor = self.connect.cursor()
 
     @check_status
-    def define_data_base(self):
+    def create_table(self):
         """Create SQL file with table - term and translated
 
         Args:
@@ -114,11 +117,20 @@ class Dictionary:
 
     @check_status
     def delete_element(self, word: str = None, index_element: int = None):
-        pass
+        if index_element:
+            query = f"""DELETE FROM words WHERE wordId = '{index_element}'"""
+            self.cursor.execute(query)
+            return self.cursor.fetchone()
+        if word:
+            query = f"""DELETE FROM words WHERE word = '{word}'"""
+            self.cursor.execute(query)
+            return self.cursor.fetchone()
+        return None
 
 
-eng2pol = Dictionary(DBNAME)
-eng2pol.define_data_base()
+eng2pol = Dictionary()
+eng2pol.create_data_base(DBNAME)
+eng2pol.create_table()
 eng2pol.insert_element("test", "test1")
 words = eng2pol.show_all()
 print(words)
