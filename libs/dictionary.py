@@ -18,7 +18,13 @@ def check_status(func):
 
 
 class Dictionary:
-    def create_data_base(self, filename: str):
+    def create_data_base(self, filename: str = DBNAME):
+        """Create database in SQLite3 with path and filename from configurations.py
+        
+        Args:
+        filename(str): name of file database. Default retrive from configurations.py
+        """
+            
         self.connect = sqlite3.connect(ABSPATH + PATH_TO_DB + filename)
         self.cursor = self.connect.cursor()
 
@@ -139,7 +145,7 @@ class Dictionary:
 
 
 eng2pol = Dictionary()
-eng2pol.create_data_base(DBNAME)
+eng2pol.create_data_base()
 eng2pol.create_main_table()
 eng2pol.create_category_table()
 # eng2pol.insert_element("test", "test1")
