@@ -1,4 +1,4 @@
 *.DB
 __pycache__/
 *.pyc
- 
+.vscode/
