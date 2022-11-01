@@ -1,7 +1,5 @@
 from typing import List
 
-from gen_list import gen_list
-
 
 def input_standard(input: str) -> str:
     """Input standardization which convert all upper letter to lower, replace numbers and other to empty
@@ -77,4 +75,3 @@ def iterate_list(lst: List, indexPage: int):
     """
     for i, values in enumerate(lst[indexPage]):
         yield f"{i+1} > \t {values['word']} -> {values['translated_word']}"
-

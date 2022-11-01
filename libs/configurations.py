@@ -1,5 +1,10 @@
 # DataBase configurations:
-DBNAME = "english-polish.DB"
+
+# Sqlite3 database file name
+DBNAME = "database.DB"
+
+# database path
 PATH_TO_DB = "/database/"
 
-DEFAULT_NAME = "all"
+# default name of table for all words
+DEFAULT_NAME = "words"

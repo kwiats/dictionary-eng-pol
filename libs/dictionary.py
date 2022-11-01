@@ -1,10 +1,9 @@
 from operator import index
 import sqlite3
 
-from os import path, chdir, getcwd
-import pathlib
+from os import path, getcwd
 
-from configurations import DBNAME, PATH_TO_DB
+from configurations import DBNAME, PATH_TO_DB, DEFAULT_NAME
 
 ABSPATH = path.abspath(getcwd())
 
@@ -24,10 +23,10 @@ class Dictionary:
         self.cursor = self.connect.cursor()
 
     @check_status
-    def create_main_table(self):
+    def create_main_table(self, name: str = DEFAULT_NAME):
         """Create main table with all words, translated word and specific category"""
 
-        create_table = """CREATE TABLE IF NOT EXISTS words(
+        create_table = """CREATE TABLE IF NOT EXISTS '{name}'(
             wordId INTEGER PRIMARY KEY,
             word TEXT,
             translatedWord TEXT,
@@ -128,7 +127,7 @@ class Dictionary:
             self.cursor.execute(query)
             return self.cursor.fetchone()
         return None
-    
+
     def insert_category():
         pass
 

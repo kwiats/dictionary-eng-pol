@@ -2,12 +2,14 @@
 ### 30 sekund w trakcie trwania musisz wpisac jak najwiecej slow
 ### znaki polskie, duze litery, male litery sa pomijane!!
 ### znaki specjalne sa bledami
-from typing import List
 from utils import input_standard
+#from gen_list import gen_list
+
+
+from typing import List
 from random import randint
 ### wyswietlac: bledne slowa,
 
-from gen_list import gen_list
 
 def check_correction(translated_word: str, input: str) -> bool:
     if input == translated_word:
@@ -19,6 +21,6 @@ def random_elemnts(quantity: int, lst: List):
     return elements
     
 
-lst = gen_list(30)
-print(random_elemnts(10, lst))
-print(check_correction("siema",input_standard("S1iema")))
+# lst = gen_list(30)
+# print(random_elemnts(10, lst))
+# print(check_correction("siema",input_standard("S1iema")))

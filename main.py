@@ -1,3 +1,4 @@
-from libs import learning, dictionary, translator
+from libs import learning, dictionary
 
-### kod
+if __name__ == "__main__":
+    print("App doesn't working")
