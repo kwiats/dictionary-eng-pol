@@ -1,9 +1,9 @@
 # DataBase configurations:
 
-# Sqlite3 database file name
+# file name of sqlite3 database
 DBNAME = "database.DB"
 
-# database path
+# path to db
 PATH_TO_DB = "/database/"
 
 # default name of table for all words

@@ -2,9 +2,6 @@
 ### 30 sekund w trakcie trwania musisz wpisac jak najwiecej slow
 ### znaki polskie, duze litery, male litery sa pomijane!!
 ### znaki specjalne sa bledami
-from utils import input_standard
-#from gen_list import gen_list
-
 
 from typing import List
 from random import randint
@@ -20,7 +17,3 @@ def random_elemnts(quantity: int, lst: List):
     elements = ([randint(1, len(lst)) for _ in range(quantity)])
     return elements
     
-
-# lst = gen_list(30)
-# print(random_elemnts(10, lst))
-# print(check_correction("siema",input_standard("S1iema")))
