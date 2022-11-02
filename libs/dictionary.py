@@ -1,9 +1,8 @@
-from operator import index
+from msilib.schema import Error
 import sqlite3
-
 from os import path, getcwd
 
-from configurations import DBNAME, PATH_TO_DB, DEFAULT_NAME
+from configurations import DBNAME, PATH_TO_DB
 
 ABSPATH = path.abspath(getcwd())
 
@@ -20,11 +19,11 @@ def check_status(func):
 class Dictionary:
     def create_data_base(self, filename: str = DBNAME):
         """Create database in SQLite3 with path and filename from configurations.py
-        
+
         Args:
         filename(str): name of file database. Default retrive from configurations.py
         """
-            
+
         self.connect = sqlite3.connect(ABSPATH + PATH_TO_DB + filename)
         self.cursor = self.connect.cursor()
 
@@ -49,11 +48,12 @@ class Dictionary:
 
     @check_status
     def create_wordcategory_table(self):
-        """Create word category table for database with index of word and index of category
-        """
-        create_table ="""CREATE TABLE IF NOT EXISTS wordCategory(
-            wordId INTEGER FOREIGN KEY, 
-            categoryId INTEGER FOREIGN KEY)"""
+        """Create word category table for database with index of word and index of category"""
+        create_table = """CREATE TABLE IF NOT EXISTS wordCategory(
+            wordId INTEGER NOT NULL, 
+            categoryId INTEGER NOT NULL,
+            FOREIGN KEY(wordId) REFERENCES words(wordId),
+            FOREIGN KEY(categoryId) REFERENCES category(categoryId))"""
         return self.cursor.execute(create_table)
 
     # def close_and_commit(self):
@@ -142,23 +142,87 @@ class Dictionary:
             return self.cursor.fetchone()
         return None
 
-    def insert_category():
-        pass
+    @check_status
+    def insert_category(self, category: str):
+        self.cursor.execute(
+            f"""
+            INSERT INTO category(category)
+            VALUES ('{category}')
+            """
+        )
 
-    def update_category():
-        pass
+        return self.cursor.fetchall()
 
-    def delete_category():
-        pass
+    @check_status
+    def update_category(
+        self, id: int = None, category: str = None, new_category: str = None
+    ):
+        if id:
+            query = f"""UPDATE category SET category = '{category}' WHERE categoryId = '{id}'"""
+            updated = self.cursor.execute(query)
+            return updated.fetchone()
+        if category and category:
+            query = f"""UPDATE category SET category = '{category}' WHERE category = '{new_category}'"""
+            updated = self.cursor.execute(query)
+            return updated.fetchone()
+        return None
 
-    def insert_word_category():
-        pass
+    @check_status
+    def delete_category(self, id: int = None, category: str = None):
+        if id:
+            query = f"""DELETE FROM category WHERE categoryId = '{id}'"""
+            deleted = self.cursor.execute(query)
+            return deleted.fetchone()
+        if category:
+            query = f"""DELETE FROM category WHERE category = '{category}'"""
+            deleted = self.cursor.execute(query)
+            return deleted.fetchone()
+        return None
 
-    def update_word_category():
-        pass
+    @check_status
+    def find_id_word(self, word: str):
+        query = f"""SELECT wordId FROM words WHERE word = '{word}' """
+        wordId = self.cursor.execute(query)
+        return wordId.fetchone()
 
-    def delete_category():
-        pass
+    @check_status
+    def find_id_cat(self, category: str):
+        query = f"""SELECT categoryId FROM category WHERE category = '{category}' """
+        categoryId = self.cursor.execute(query)
+        return categoryId.fetchone()
+
+    @check_status
+    def insert_word_category(self, wordId: int, categoryId: int):
+        query = f"""
+            INSERT INTO wordCategory(wordId, categorId)
+            VALUES ('{wordId}', '{categoryId}')
+            """
+        self.cursor.execute(query)
+        self.cursor.commit()
+
+    @check_status
+    def update_word_category(self, wordId: int, categoryId: int, option: int = 1):
+        if option == 1:
+            query = f"""UPDATE wordCategory SET cateogryId = '{categoryId}' WHERE wordId = '{wordId}'"""
+            updated = self.cursor.execute(query)
+            return updated.fetchone()
+        elif option == 2:
+            query = f"""UPDATE wordCategory SET wordId = '{wordId}' WHERE cateogryId = '{categoryId}'"""
+            updated = self.cursor.execute(query)
+            return updated.fetchone()
+        else:
+            raise Error("Only two option,1# change categoryId or 2# change wordId")
+
+    @check_status
+    def delete_category(self, wordId: int = None, categoryId: int = None):
+        if wordId:
+            query = f"""DELETE FROM wordCategory WHERE wordId = '{wordId}'"""
+            deleted = self.cursor.execute(query)
+            return deleted.fetchone()
+        if categoryId:
+            query = f"""DELETE FROM wordCategory WHERE categoryId = '{categoryId}'"""
+            deleted = self.cursor.execute(query)
+            return deleted.fetchone()
 
 
 eng2pol = Dictionary()
