@@ -6,8 +6,8 @@ Base = declarative_base()
 word_category = Table(
     "word_category",
     Base.metadata,
-    Column("wordId", ForeignKey("words.id")),
-    Column("categoryId", ForeignKey("category.id")),
+    Column("word_id", ForeignKey("words.id")),
+    Column("category_id", ForeignKey("category.id")),
 )
 
 
