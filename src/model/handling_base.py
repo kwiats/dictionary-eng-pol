@@ -37,15 +37,17 @@ def add_new_category(session: Session, input_category: str):
     return category
 
 
-def add_new_word_category(word: add_new_word, category: add_new_category):
-    return category.words.appends(word)
+def add_new_word_category(word, category):
+    return category.words.append(word)
 
 
 word = add_new_word(session=session, input_word="Hi", input_trasnlated_word="Siema")
 
 category = add_new_category(session=session, input_category="Greetings")
 
+print(word, category)
+
 add_new_word_category(word=word, category=category)
 
-session.add_all(word, category)
+session.add(category)
 session.commit()
