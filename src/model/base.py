@@ -6,8 +6,8 @@ Base = declarative_base()
 word_category = Table(
     "word_category",
     Base.metadata,
-    Column("word_id", ForeignKey("words.id")),
-    Column("category_id", ForeignKey("category.id")),
+    Column("word_id", Integer, ForeignKey("words.id")),
+    Column("category_id", Integer, ForeignKey("category.id")),
 )
 
 
@@ -17,12 +17,6 @@ class Word(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     word = Column(String)
     translated_word = Column(String)
-
-    children = relationship(
-        "Category",
-        secondary=word_category,
-        back_populates="parents",
-    )
 
     def __repr__(self) -> str:
         return f"<Words(id= {self.id}, word={self.word}, translated_word={self.translated_word}"
@@ -34,11 +28,7 @@ class Category(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     category = Column(String)
 
-    parents = relationship(
-        "Word",
-        secondary=word_category,
-        back_populates="children",
-    )
+    words = relationship("Word", secondary=word_category, backref="words")
 
     def __repr__(self) -> str:
         return f"<Category(id= {self.id}, category={self.category}"
