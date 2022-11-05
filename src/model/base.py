@@ -1,6 +1,8 @@
 from sqlalchemy import create_engine, Column, Integer, String, Table, ForeignKey
 from sqlalchemy.orm import declarative_base, relationship
 
+#from src.libs.constants import ECHO
+
 Base = declarative_base()
 
 word_category = Table(
@@ -34,5 +36,5 @@ class Category(Base):
         return f"<Category(id= {self.id}, category={self.category})"
 
 
-engine = create_engine("postgresql://localhost/pawelkwiatkowski", echo=True)
+engine = create_engine("postgresql://localhost/pawelkwiatkowski", echo=False)
 Base.metadata.create_all(engine)

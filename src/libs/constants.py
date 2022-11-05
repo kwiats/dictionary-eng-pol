@@ -8,3 +8,6 @@ PATH_TO_DB = "/database/"
 
 # default name of table for all words
 DEFAULT_NAME = "words"
+
+# ...
+ECHO = False
