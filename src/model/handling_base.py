@@ -8,6 +8,28 @@ Session = sessionmaker(bind=engine)
 session = Session()
 
 
+def get_all_words(session: Session):
+    return session.query(Word).all()
+
+
+def get_all_category(session: Session):
+    return session.query(Category).all()
+
+
+def get_words_from_category(session: Session, category: str):
+    return session.query(category.words).filter(category == category).all()
+
+
+def get_words(session: Session, word: str = None, translated_word: str = None):
+    if word:
+        return session.query(Word).filter(word == word).all()
+    return session.query(Word).filter(translated_word=translated_word).all()
+
+
+def get_category(session: Session, category: str):
+    return session.query(Category).filter(category == category).all()
+
+
 def add_new_word(session: Session, input_word: str, input_trasnlated_word: str):
     word = (
         session.query(Word)
@@ -41,13 +63,16 @@ def add_new_word_category(word, category):
     return category.words.append(word)
 
 
-word = add_new_word(session=session, input_word="Hi", input_trasnlated_word="Siema")
+# word = add_new_word(session=session, input_word="Hi", input_trasnlated_word="Siema")
 
-category = add_new_category(session=session, input_category="Greetings")
+# category = add_new_category(session=session, input_category="Greetings")
 
-print(word, category)
+# print(word, category)
 
-add_new_word_category(word=word, category=category)
+# add_new_word_category(word=word, category=category)
 
-session.add(category)
-session.commit()
+# session.add(category)
+# session.commit()
+
+words = get_all_words(session=session)
+

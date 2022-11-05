@@ -19,7 +19,7 @@ class Word(Base):
     translated_word = Column(String)
 
     def __repr__(self) -> str:
-        return f"<Words(id= {self.id}, word={self.word}, translated_word={self.translated_word}"
+        return f"<Words(id= {self.id}, word={self.word}, translated_word={self.translated_word})"
 
 
 class Category(Base):
@@ -31,7 +31,7 @@ class Category(Base):
     words = relationship("Word", secondary=word_category, backref="words")
 
     def __repr__(self) -> str:
-        return f"<Category(id= {self.id}, category={self.category}"
+        return f"<Category(id= {self.id}, category={self.category})"
 
 
 engine = create_engine("postgresql://localhost/pawelkwiatkowski", echo=True)
