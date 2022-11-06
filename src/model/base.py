@@ -20,8 +20,6 @@ class Word(Base):
     word = Column(String)
     translated_word = Column(String)
 
-    categories = relationship("Category", secondary=word_category, back_populates="words")
-
     def __repr__(self) -> str:
         return f"<Words(id= {self.id}, word={self.word}, translated_word={self.translated_word})"
 
@@ -32,7 +30,7 @@ class Category(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     category = Column(String)
 
-    words = relationship("Word", secondary=word_category, back_populates="categories")
+    words = relationship("Word", secondary=word_category)
 
     def __repr__(self) -> str:
         return f"<Category(id= {self.id}, category={self.category})"
