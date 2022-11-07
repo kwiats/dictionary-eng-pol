@@ -1,6 +1,6 @@
 from sqlalchemy.orm import sessionmaker
 
-from base import Word, Category, engine
+from src.model.base import Word, Category, engine
 
 Session = sessionmaker(bind=engine)
 
@@ -79,36 +79,36 @@ def add_new_word_category(word, category):
 # session.add_all([adj, food])               
 # session.commit()
 
-food = get_category("FOOD")
-print(food)
+# food = get_category("FOOD")
+# print(food)
 
-adj = get_category("ADJECTIVES")
-print(adj)
+# adj = get_category("ADJECTIVES")
+# print(adj)
 
-food_words = get_words_from_category(food)
-print(food_words)
+# food_words = get_words_from_category(food)
+# print(food_words)
 
-for x in food_words:
-    print(f"{x.id} {x.word} -> {x.translated_word}")
+# for x in food_words:
+#     print(f"{x.id} {x.word} -> {x.translated_word}")
 
-adj_words = get_words_from_category(adj)
-print(adj_words)
+# adj_words = get_words_from_category(adj)
+# print(adj_words)
 
-for x in adj_words:
-    print(f"{x.id} {x.word} -> {x.translated_word}")
+# for x in adj_words:
+#     print(f"{x.id} {x.word} -> {x.translated_word}")
 
 
-words = get_all_words()
+# words = get_all_words()
 
-for x in words:
-    print(x)
+# for x in words:
+#     print(x)
 
-categories = get_all_category()
+# categories = get_all_category()
 
-for x in categories:
-    print(x)
+# for x in categories:
+#     print(x)
 
-word_1 = get_words(word="Nice")
-print(word_1)
-word_2 = get_words(translated_word="Truskawka")
-print(word_2)
+# word_1 = get_words(word="Nice")
+# print(word_1)
+# word_2 = get_words(translated_word="Truskawka")
+# print(word_2)
